@@ -108,8 +108,15 @@ export const api = {
 
   // Redistribution
   getRedistributions: () => request('/redistribution/recommendations'),
-  actionRedistribution: (recId, action) =>
-    request(`/redistribution/recommendations/${recId}/action`, { method: 'POST', body: JSON.stringify({ action }) }),
+  getRedistributionAvailableStock: (facilityId) =>
+    request(`/redistribution/available-stock?facility_id=${facilityId}`),
+  createRedistributionRequest: (requestData) =>
+    request('/redistribution/requests', { method: 'POST', body: JSON.stringify(requestData) }),
+  actionRedistribution: (recId, action, facilityId) =>
+    request(`/redistribution/recommendations/${recId}/action`, {
+      method: 'POST',
+      body: JSON.stringify({ action, facility_id: facilityId }),
+    }),
 
   // Queries
   getQueries: (facilityId, role) => request(`/queries?facility_id=${facilityId}&role=${role}`),

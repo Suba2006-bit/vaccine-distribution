@@ -1,0 +1,218 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1300 950" width="100%" height="100%" style="background:#0b1120; font-family:'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="bgGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="50%" stop-color="#1e1b4b" />
+      <stop offset="100%" stop-color="#0b1120" />
+    </linearGradient>
+    <linearGradient id="blueCard" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e3a8a" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#1e40af" stop-opacity="0.8"/>
+    </linearGradient>
+    <linearGradient id="purpleCard" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4c1d95" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#5b21b6" stop-opacity="0.8"/>
+    </linearGradient>
+    <linearGradient id="emeraldCard" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#064e3b" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#047857" stop-opacity="0.8"/>
+    </linearGradient>
+    <linearGradient id="amberCard" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#78350f" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#b45309" stop-opacity="0.8"/>
+    </linearGradient>
+    <linearGradient id="cyanCard" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#164e63" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#0e7490" stop-opacity="0.8"/>
+    </linearGradient>
+
+    <!-- Filters -->
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrowPurple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#c084fc"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#34d399"/>
+    </marker>
+    <marker id="arrowAmber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#fbbf24"/>
+    </marker>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="1300" height="950" fill="url(#bgGlow)" />
+  <rect x="25" y="25" width="1250" height="900" rx="20" fill="none" stroke="#334155" stroke-width="1.5" stroke-dasharray="8 6" />
+
+  <!-- HEADER -->
+  <g transform="translate(60, 50)">
+    <rect x="0" y="0" width="1180" height="65" rx="14" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="30" y="38" fill="#38bdf8" font-size="20" font-weight="bold">VAXTRACK SYSTEM ARCHITECTURE &amp; WORKFLOW</text>
+    <text x="30" y="55" fill="#94a3b8" font-size="12">End-to-End Cold-Chain Thermal Tracking, AI Forecasting, FEFO Inventory &amp; Multi-Tier Logistics</text>
+    <rect x="990" y="16" width="165" height="32" rx="8" fill="#1e293b" stroke="#64748b" stroke-width="1"/>
+    <text x="1010" y="37" fill="#34d399" font-size="12" font-weight="bold">&#x25CF; CSE College Project</text>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- LAYER 1: CLIENT FRONTEND (PORTAL DOORS)    -->
+  <!-- ========================================== -->
+  <g transform="translate(60, 135)">
+    <!-- Container -->
+    <rect x="0" y="0" width="1180" height="150" rx="16" fill="#0f172a" stroke="#475569" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="25" y="28" fill="#f8fafc" font-size="14" font-weight="bold">LAYER 1: PRESENTATION LAYER (React 19 + Vite 8 + Tailwind CSS)</text>
+    <text x="750" y="28" fill="#64748b" font-size="12">Role Isolation: Strict Session Separation</text>
+
+    <!-- Hospital Portal Box -->
+    <g transform="translate(25, 45)">
+      <rect x="0" y="0" width="550" height="85" rx="12" fill="url(#blueCard)" stroke="#60a5fa" stroke-width="1.5" filter="url(#shadow)"/>
+      <circle cx="35" cy="42" r="18" fill="#2563eb" />
+      <text x="35" y="47" fill="#ffffff" font-size="16" text-anchor="middle" font-weight="bold">&#x2695;</text>
+      <text x="65" y="32" fill="#ffffff" font-size="15" font-weight="bold">Portal 1: Clinical Hospital &amp; Pharmacy</text>
+      <text x="65" y="50" fill="#bfdbfe" font-size="11">Auth: /hospital-login (CityCare Hospital, Green Valley Clinic)</text>
+      <text x="65" y="68" fill="#93c5fd" font-size="11" font-weight="600">8 Tabs: Dashboard &#x2022; Inventory &#x2022; Thermal Hub &#x2022; Demand &#x2022; Stock &#x2022; Orders &#x2022; Redistribution &#x2022; Queries</text>
+    </g>
+
+    <!-- Manufacturer Portal Box -->
+    <g transform="translate(605, 45)">
+      <rect x="0" y="0" width="550" height="85" rx="12" fill="url(#purpleCard)" stroke="#c084fc" stroke-width="1.5" filter="url(#shadow)"/>
+      <circle cx="35" cy="42" r="18" fill="#7c3aed" />
+      <text x="35" y="48" fill="#ffffff" font-size="16" text-anchor="middle" font-weight="bold">&#x2699;</text>
+      <text x="65" y="32" fill="#ffffff" font-size="15" font-weight="bold">Portal 2: National Vaccine Manufacturer</text>
+      <text x="65" y="50" fill="#e9d5ff" font-size="11">Auth: /manufacturer-login (Apex Biologics &amp; Vaccines Ltd.)</text>
+      <text x="65" y="68" fill="#d8b4fe" font-size="11" font-weight="600">7 Tabs: Control &#x2022; Demand Aggregator &#x2022; Fulfillment &#x2022; Production &#x2022; Cold Transit &#x2022; Raw Materials &#x2022; Tickets</text>
+    </g>
+  </g>
+
+  <!-- Connectors: L1 to L2 -->
+  <path d="M 360 285 L 360 315" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4 3" marker-end="url(#arrowBlue)" />
+  <path d="M 940 285 L 940 315" stroke="#c084fc" stroke-width="2" stroke-dasharray="4 3" marker-end="url(#arrowPurple)" />
+
+  <!-- ========================================== -->
+  <!-- LAYER 2: GATEWAY & REVERSE PROXY LAYER     -->
+  <!-- ========================================== -->
+  <g transform="translate(60, 315)">
+    <rect x="0" y="0" width="1180" height="60" rx="12" fill="#1e293b" stroke="#475569" stroke-width="1.2" filter="url(#shadow)"/>
+    <text x="30" y="35" fill="#38bdf8" font-size="13" font-weight="bold">REVERSE PROXY &amp; API GATEWAY</text>
+    <text x="250" y="35" fill="#e2e8f0" font-size="12">Vite Dev Proxy: /api/* &#x2192; http://127.0.0.1:5000</text>
+    <text x="600" y="35" fill="#a7f3d0" font-size="12">&#x2714; Auto-Boot Daemon: autoBackendPlugin()</text>
+    <text x="910" y="35" fill="#fde68a" font-size="12">&#x21BB; Transparent 3x Exponential Retry</text>
+  </g>
+
+  <!-- Connectors: L2 to L3 -->
+  <path d="M 650 375 L 650 405" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#arrowBlue)" />
+
+  <!-- ========================================== -->
+  <!-- LAYER 3: BACKEND REST API ENGINE (Flask)   -->
+  <!-- ========================================== -->
+  <g transform="translate(60, 405)">
+    <rect x="0" y="0" width="1180" height="235" rx="16" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="25" y="28" fill="#60a5fa" font-size="14" font-weight="bold">LAYER 3: BACKEND REST API &amp; CORE ALGORITHMIC ENGINES (Python 3.11 + Flask)</text>
+
+    <!-- Box 1: Thermal Tracking Hub (Arrhenius & Real Dataset) -->
+    <g transform="translate(25, 45)">
+      <rect x="0" y="0" width="270" height="170" rx="10" fill="url(#cyanCard)" stroke="#38bdf8" stroke-width="1.2" filter="url(#shadow)"/>
+      <text x="15" y="25" fill="#ffffff" font-size="13" font-weight="bold">&#x2744; Thermal Tracking Engine</text>
+      <text x="15" y="45" fill="#cffafe" font-size="10.5" font-weight="600">&#x2022; WHO Mean Kinetic Temp (MKT)</text>
+      <text x="25" y="60" fill="#a5f3fc" font-size="9.5">Arrhenius: &#x0394;H=83.144 kJ/mol, R</text>
+      <text x="15" y="80" fill="#cffafe" font-size="10.5" font-weight="600">&#x2022; Cold Chain Health Index</text>
+      <text x="25" y="95" fill="#a5f3fc" font-size="9.5">0-100% Score &#x2022; Freeze/Heat Tripwires</text>
+      <text x="15" y="115" fill="#cffafe" font-size="10.5" font-weight="600">&#x2022; Real Dataset Mode</text>
+      <text x="25" y="130" fill="#a5f3fc" font-size="9.5">500 Rows: Jharkhand ULT &#x2192; Breach</text>
+      <text x="15" y="150" fill="#fde047" font-size="9.5" font-weight="bold">&#x26A0; Auto-Quarantine Safety Lock</text>
+    </g>
+
+    <!-- Box 2: AI Demand Forecasting Engine -->
+    <g transform="translate(315, 45)">
+      <rect x="0" y="0" width="270" height="170" rx="10" fill="url(#blueCard)" stroke="#60a5fa" stroke-width="1.2" filter="url(#shadow)"/>
+      <text x="15" y="25" fill="#ffffff" font-size="13" font-weight="bold">&#x1F4C8; AI Demand Forecasting</text>
+      <text x="15" y="45" fill="#bfdbfe" font-size="10.5" font-weight="600">&#x2022; OLS Linear Regression</text>
+      <text x="25" y="60" fill="#93c5fd" font-size="9.5">y = mx + c with numpy.polyfit</text>
+      <text x="15" y="80" fill="#bfdbfe" font-size="10.5" font-weight="600">&#x2022; Day-of-Week Seasonality</text>
+      <text x="25" y="95" fill="#93c5fd" font-size="9.5">Pediatric clinic day 1.25x vs Sun 0.30x</text>
+      <text x="15" y="115" fill="#bfdbfe" font-size="10.5" font-weight="600">&#x2022; Confidence Intervals (&#x00B1;1.2&#x03C3;)</text>
+      <text x="25" y="130" fill="#93c5fd" font-size="9.5">Upper/Lower clinical bounds</text>
+      <text x="15" y="150" fill="#67e8f9" font-size="9.5" font-weight="bold">Horizons: 7-Day, 30-Day, 90-Day</text>
+    </g>
+
+    <!-- Box 3: FEFO & Redistribution Optimizer -->
+    <g transform="translate(605, 45)">
+      <rect x="0" y="0" width="270" height="170" rx="10" fill="url(#emeraldCard)" stroke="#34d399" stroke-width="1.2" filter="url(#shadow)"/>
+      <text x="15" y="25" fill="#ffffff" font-size="13" font-weight="bold">&#x267B; Inventory &amp; FEFO Engine</text>
+      <text x="15" y="45" fill="#a7f3d0" font-size="10.5" font-weight="600">&#x2022; First-Expired First-Out (FEFO)</text>
+      <text x="25" y="60" fill="#6ee7b7" font-size="9.5">Sorts batches by minimum shelf life</text>
+      <text x="15" y="80" fill="#a7f3d0" font-size="10.5" font-weight="600">&#x2022; Stock Safety Reserve Analysis</text>
+      <text x="25" y="95" fill="#6ee7b7" font-size="9.5">Days of Supply = Stock / Daily Burn</text>
+      <text x="15" y="115" fill="#a7f3d0" font-size="10.5" font-weight="600">&#x2022; Redistribution Rebalancer</text>
+      <text x="25" y="130" fill="#6ee7b7" font-size="9.5">Matches Surplus (&gt;60d) to Deficit (&lt;20d)</text>
+      <text x="15" y="150" fill="#fde047" font-size="9.5" font-weight="bold">&#x2713; Zero Expiry Wastage Protocol</text>
+    </g>
+
+    <!-- Box 4: Production & Order Dispatch Pipeline -->
+    <g transform="translate(895, 45)">
+      <rect x="0" y="0" width="260" height="170" rx="10" fill="url(#purpleCard)" stroke="#c084fc" stroke-width="1.2" filter="url(#shadow)"/>
+      <text x="15" y="25" fill="#ffffff" font-size="13" font-weight="bold">&#x1F69B; Supply &amp; Order Pipeline</text>
+      <text x="15" y="45" fill="#e9d5ff" font-size="10.5" font-weight="600">&#x2022; Inter-Portal Request Desk</text>
+      <text x="25" y="60" fill="#d8b4fe" font-size="9.5">Hospital Orders &#x2192; Mfg Fulfillment</text>
+      <text x="15" y="80" fill="#e9d5ff" font-size="10.5" font-weight="600">&#x2022; National Aggregate Demand</text>
+      <text x="25" y="95" fill="#d8b4fe" font-size="9.5">Synthesizes multi-hospital forecasts</text>
+      <text x="15" y="115" fill="#e9d5ff" font-size="10.5" font-weight="600">&#x2022; Bill of Materials (BOM) Calculator</text>
+      <text x="25" y="130" fill="#d8b4fe" font-size="9.5">Glass Vials, Elastomer, Cold Boxes</text>
+      <text x="15" y="150" fill="#a7f3d0" font-size="9.5" font-weight="bold">&#x2022; Two-Way Query Ticketing System</text>
+    </g>
+  </g>
+
+  <!-- Connectors: L3 to L4 -->
+  <path d="M 650 640 L 650 670" stroke="#10b981" stroke-width="2.5" marker-end="url(#arrowGreen)" />
+
+  <!-- ========================================== -->
+  <!-- LAYER 4: DATA PERSISTENCE & DATASET LAYER  -->
+  <!-- ========================================== -->
+  <g transform="translate(60, 670)">
+    <rect x="0" y="0" width="1180" height="150" rx="16" fill="#0f172a" stroke="#10b981" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="25" y="28" fill="#34d399" font-size="14" font-weight="bold">LAYER 4: DATA PERSISTENCE LAYER (Relational SQLite &amp; Cold-Chain Telemetry Dataset)</text>
+
+    <!-- DB Table 1: SQLite Database -->
+    <g transform="translate(25, 45)">
+      <rect x="0" y="0" width="550" height="85" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1.2"/>
+      <text x="20" y="25" fill="#38bdf8" font-size="13" font-weight="bold">&#x1F5C4; SQLite Relational DB (backend/vaccine_system.db)</text>
+      <text x="20" y="45" fill="#cbd5e1" font-size="11">Tables: users, vaccines, batches, consumption_records,</text>
+      <text x="20" y="62" fill="#cbd5e1" font-size="11">thermal_telemetry_logs, supply_requests, query_tickets</text>
+      <text x="20" y="78" fill="#94a3b8" font-size="10">&#x2192; Thread-safe connections, foreign key constraints &amp; transactional ACID writes</text>
+    </g>
+
+    <!-- DB Table 2: User-Supplied Real Dataset -->
+    <g transform="translate(605, 45)">
+      <rect x="0" y="0" width="550" height="85" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1.2"/>
+      <text x="20" y="25" fill="#34d399" font-size="13" font-weight="bold">&#x1F4CA; Real Cold-Chain Telemetry Dataset (cold_chain_dataset.csv)</text>
+      <text x="20" y="45" fill="#cbd5e1" font-size="11">500 Real IoT Telemetry Records for batch001 (Jharkhand Facility)</text>
+      <text x="20" y="62" fill="#a7f3d0" font-size="10.5">Phase 1: ULT Freezing (-70&#x00B0;C, 720h) &#x2192; Phase 2: Refrigerated (2-4&#x00B0;C, 119h)</text>
+      <text x="20" y="78" fill="#f87171" font-size="10.5" font-weight="bold">Phase 3: Thermal Breach Excursion (14&#x00B0;C) &#x2192; Auto-Discard Protocol</text>
+    </g>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- FOOTER / LEGEND                            -->
+  <!-- ========================================== -->
+  <g transform="translate(60, 840)">
+    <rect x="0" y="0" width="1180" height="60" rx="12" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+    <text x="30" y="35" fill="#94a3b8" font-size="12">Workflow Pipeline Legend:</text>
+    <rect x="190" y="24" width="12" height="12" rx="3" fill="#38bdf8" />
+    <text x="210" y="35" fill="#e2e8f0" font-size="11">Clinical Hospital Data</text>
+
+    <rect x="360" y="24" width="12" height="12" rx="3" fill="#c084fc" />
+    <text x="380" y="35" fill="#e2e8f0" font-size="11">Manufacturer Logistics</text>
+
+    <rect x="540" y="24" width="12" height="12" rx="3" fill="#34d399" />
+    <text x="560" y="35" fill="#e2e8f0" font-size="11">ML &amp; Kinetic Calculations</text>
+
+    <rect x="730" y="24" width="12" height="12" rx="3" fill="#f87171" />
+    <text x="750" y="35" fill="#e2e8f0" font-size="11">Thermal Quarantine Alarm</text>
+
+    <text x="960" y="35" fill="#64748b" font-size="11">Software-Only CSE Simulation</text>
+  </g>
+</svg>

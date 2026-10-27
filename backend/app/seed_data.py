@@ -8,6 +8,78 @@ from .services.simulator_service import generate_burst_telemetry
 def hash_pw(pw: str) -> str:
     return hashlib.sha256(pw.encode('utf-8')).hexdigest()
 
+
+def ensure_default_redistribution_history(conn):
+    existing_history = conn.execute(
+        "SELECT 1 FROM redistribution_recommendations WHERE status IN ('COMPLETED', 'DISMISSED') LIMIT 1"
+    ).fetchone()
+    if existing_history:
+        return
+
+    source = conn.execute(
+        "SELECT id FROM users WHERE email = ?", ("hospital@citycare.org",)
+    ).fetchone()
+    target = conn.execute(
+        "SELECT id FROM users WHERE email = ?", ("clinic@greenvalley.org",)
+    ).fetchone()
+    if not source or not target:
+        return
+
+    source_batch = conn.execute(
+        "SELECT * FROM batches WHERE batch_number = ? AND facility_id = ?",
+        ("COV-2026-A102", source["id"]),
+    ).fetchone()
+    if not source_batch or source_batch["current_doses"] <= 0:
+        return
+
+    receiving_batch_number = "REDIST-DEMO-HISTORY-COV-2026-A102"
+    if conn.execute(
+        "SELECT 1 FROM batches WHERE batch_number = ?", (receiving_batch_number,)
+    ).fetchone():
+        return
+
+    transfer_doses = min(100, source_batch["current_doses"])
+    conn.execute(
+        "UPDATE batches SET current_doses = current_doses - ? WHERE id = ?",
+        (transfer_doses, source_batch["id"]),
+    )
+    conn.execute(
+        """
+        INSERT INTO batches (
+            batch_number, facility_id, vaccine_id, manufacture_date, expiry_date,
+            initial_doses, current_doses, status, cold_storage_unit, quarantine_reason
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, 'ACTIVE', 'Clinic Refrigerator 1', ?)
+        """,
+        (
+            receiving_batch_number,
+            target["id"],
+            source_batch["vaccine_id"],
+            source_batch["manufacture_date"],
+            source_batch["expiry_date"],
+            transfer_doses,
+            transfer_doses,
+            "Default completed redistribution transaction.",
+        ),
+    )
+    conn.execute(
+        """
+        INSERT INTO redistribution_recommendations (
+            source_facility_id, target_facility_id, batch_id, vaccine_id,
+            recommended_doses, reason, status, created_at
+        ) VALUES (?, ?, ?, ?, ?, ?, 'COMPLETED', ?)
+        """,
+        (
+            source["id"],
+            target["id"],
+            source_batch["id"],
+            source_batch["vaccine_id"],
+            transfer_doses,
+            "Completed default demo transfer to Green Valley Community Health Center.",
+            (datetime.now() - timedelta(days=14)).strftime("%Y-%m-%d %H:%M:%S"),
+        ),
+    )
+
+
 def seed_database():
     init_db()
     conn = get_db_connection()
@@ -16,6 +88,8 @@ def seed_database():
     # Check if already seeded
     cursor.execute("SELECT COUNT(*) FROM users")
     if cursor.fetchone()[0] > 0:
+        ensure_default_redistribution_history(conn)
+        conn.commit()
         conn.close()
         return
 
@@ -278,6 +352,7 @@ def seed_database():
     ) VALUES (?, ?, ?, ?, ?, ?, ?)
     """, production_data)
 
+    ensure_default_redistribution_history(conn)
     conn.commit()
     conn.close()
     print("Database seeding completed successfully!")

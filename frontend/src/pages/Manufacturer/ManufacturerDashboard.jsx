@@ -10,7 +10,8 @@ import {
   Truck,
   ArrowRight,
   Boxes,
-  ClipboardList
+  ClipboardList,
+  ChevronRight
 } from 'lucide-react';
 
 export default function ManufacturerDashboard({ setActiveTab }) {
@@ -37,8 +38,9 @@ export default function ManufacturerDashboard({ setActiveTab }) {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600"></div>
+      <div className="flex flex-col items-center justify-center min-h-[450px] space-y-4">
+        <div className="w-12 h-12 rounded-2xl border-4 border-purple-200 border-t-purple-600 animate-spin"></div>
+        <p className="text-xs font-bold text-slate-500 tracking-wider uppercase">Loading Manufacturer Control...</p>
       </div>
     );
   }
@@ -55,28 +57,35 @@ export default function ManufacturerDashboard({ setActiveTab }) {
   return (
     <div className="space-y-6">
       {/* Top Banner */}
-      <div className="bg-gradient-to-r from-purple-800 via-indigo-900 to-slate-900 rounded-2xl p-6 text-white shadow-md flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-        <div>
-          <span className="text-xs uppercase tracking-wider font-semibold text-purple-200">Central Logistics Control</span>
-          <h1 className="text-2xl font-bold mt-1">{user.facility_name}</h1>
-          <p className="text-xs text-purple-100 mt-1">
-            Manufacturing Facility • {user.district}, {user.state}
-          </p>
-        </div>
-        <div className="flex items-center space-x-3">
-          <button
-            onClick={() => setActiveTab('mfg-requests')}
-            className="px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl text-xs font-semibold backdrop-blur-xs transition-all flex items-center space-x-1.5"
-          >
-            <PackageCheck className="w-4 h-4 text-purple-300" />
-            <span>Hospital Orders ({pendingRequests.length} Pending)</span>
-          </button>
-          <button
-            onClick={() => setActiveTab('mfg-supply')}
-            className="px-4 py-2 bg-white text-purple-900 hover:bg-purple-50 rounded-xl text-xs font-bold transition-all shadow-sm"
-          >
-            + Schedule Production
-          </button>
+      <div className="relative overflow-hidden bg-gradient-to-r from-blue-100 via-indigo-100 to-purple-100 rounded-3xl p-7 text-slate-900 shadow-lg shadow-indigo-100/70 border border-indigo-200">
+
+        <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
+          <div>
+            <div className="flex items-center space-x-2">
+              <span className="text-[11px] uppercase tracking-wider font-extrabold text-purple-800 bg-white/70 px-2.5 py-0.5 rounded-full border border-purple-200">
+                Pharmaceutical Logistics &amp; Cleanroom Filling
+              </span>
+            </div>
+            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight mt-2 text-slate-900">
+              {user.facility_name}
+            </h1>
+          </div>
+
+          <div className="flex items-center space-x-3 shrink-0">
+            <button
+              onClick={() => setActiveTab('mfg-requests')}
+              className="px-4 py-2.5 bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-xl text-xs font-bold text-blue-800 transition-all duration-200 flex items-center space-x-2 shadow-xs cursor-pointer active:scale-95"
+            >
+              <PackageCheck className="w-4 h-4 text-blue-700" />
+              <span>Hospital Orders ({pendingRequests.length} Pending)</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('mfg-supply')}
+              className="px-4 py-2.5 bg-purple-50 hover:bg-purple-100 text-purple-800 border border-purple-200 rounded-xl text-xs font-extrabold transition-all duration-200 flex items-center space-x-2 shadow-sm cursor-pointer active:scale-95"
+            >
+              <span>+ Schedule Production</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -85,28 +94,24 @@ export default function ManufacturerDashboard({ setActiveTab }) {
         <StatCard
           title="30-Day National Demand"
           value={totalForecastedNeed.toLocaleString()}
-          subtitle="Aggregated hospital forecast"
           icon={TrendingUp}
           color="purple"
         />
         <StatCard
           title="Pending Hospital Orders"
           value={pendingRequests.length}
-          subtitle="Awaiting dispatch review"
           icon={PackageCheck}
           color={pendingRequests.length > 0 ? 'amber' : 'emerald'}
         />
         <StatCard
           title="Active Production Lots"
           value={totalInProduction.toLocaleString()}
-          subtitle="Doses in current filling batches"
           icon={Factory}
           color="blue"
         />
         <StatCard
           title="Shipments In Transit"
           value={dispatchedRequests.length}
-          subtitle="Cold-chain freight in transit"
           icon={Truck}
           color="emerald"
         />
@@ -115,55 +120,54 @@ export default function ManufacturerDashboard({ setActiveTab }) {
       {/* Two Column Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left: Pending Hospital Orders */}
-        <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-200/80 p-5 shadow-xs">
-          <div className="flex items-center justify-between mb-4">
+        <div className="lg:col-span-2 bg-white rounded-3xl border border-slate-200/80 p-6 shadow-xs hover:shadow-md transition-shadow">
+          <div className="flex items-center justify-between mb-5">
             <div>
-              <h2 className="text-base font-bold text-slate-900">Incoming Hospital Order Requests</h2>
-              <p className="text-xs text-slate-500">Replenishment orders filed by healthcare facilities</p>
+              <h2 className="text-base font-extrabold text-slate-900 tracking-tight">Incoming Hospital Order Requests</h2>
             </div>
             <button
               onClick={() => setActiveTab('mfg-requests')}
-              className="text-xs font-semibold text-purple-600 hover:text-purple-700 flex items-center space-x-1"
+              className="text-xs font-bold text-purple-600 hover:text-purple-700 flex items-center space-x-1 transition-colors group cursor-pointer"
             >
               <span>Manage All Orders</span>
-              <ArrowRight className="w-3.5 h-3.5" />
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
             </button>
           </div>
 
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto rounded-2xl border border-slate-100">
             <table className="w-full text-left text-xs">
-              <thead className="bg-slate-50 text-slate-500 font-semibold border-y border-slate-100">
+              <thead className="bg-slate-50 text-slate-500 font-bold border-b border-slate-100 uppercase tracking-wider text-[10px]">
                 <tr>
-                  <th className="py-2.5 px-3">Hospital</th>
-                  <th className="py-2.5 px-3">Vaccine</th>
-                  <th className="py-2.5 px-3">Requested Doses</th>
-                  <th className="py-2.5 px-3">Priority</th>
-                  <th className="py-2.5 px-3">Status</th>
-                  <th className="py-2.5 px-3 text-right">Action</th>
+                  <th className="py-3 px-4">Hospital Facility</th>
+                  <th className="py-3 px-4">Vaccine</th>
+                  <th className="py-3 px-4">Requested Doses</th>
+                  <th className="py-3 px-4">Clinical Priority</th>
+                  <th className="py-3 px-4">Status</th>
+                  <th className="py-3 px-4 text-right">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-slate-100 font-medium">
                 {safeRequests.slice(0, 5).map((r) => (
-                  <tr key={r.id} className="hover:bg-slate-50/60 transition-colors">
-                    <td className="py-2.5 px-3 font-semibold text-slate-900">{r.requesting_facility_name}</td>
-                    <td className="py-2.5 px-3 text-slate-700">{r.vaccine_name}</td>
-                    <td className="py-2.5 px-3 font-bold text-purple-700">{r.requested_doses.toLocaleString()}</td>
-                    <td className="py-2.5 px-3">
+                  <tr key={r.id} className="hover:bg-purple-50/30 transition-colors">
+                    <td className="py-3 px-4 font-bold text-slate-900">{r.requesting_facility_name}</td>
+                    <td className="py-3 px-4 text-slate-700 font-semibold">{r.vaccine_name}</td>
+                    <td className="py-3 px-4 font-extrabold text-purple-700">{r.requested_doses.toLocaleString()}</td>
+                    <td className="py-3 px-4">
                       <span className={`px-2 py-0.5 rounded-full font-bold text-[10px] ${
-                        r.priority === 'URGENT' ? 'bg-rose-100 text-rose-800' : 'bg-slate-100 text-slate-700'
+                        r.priority === 'URGENT' ? 'bg-rose-100 text-rose-800 border border-rose-200' : 'bg-slate-100 text-slate-700'
                       }`}>
                         {r.priority}
                       </span>
                     </td>
-                    <td className="py-2.5 px-3">
+                    <td className="py-3 px-4">
                       <Badge>{r.status}</Badge>
                     </td>
-                    <td className="py-2.5 px-3 text-right">
+                    <td className="py-3 px-4 text-right">
                       <button
                         onClick={() => setActiveTab('mfg-requests')}
-                        className="px-2.5 py-1 bg-purple-50 text-purple-700 hover:bg-purple-100 rounded-lg font-bold text-[11px] transition-colors"
+                        className="px-3 py-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 rounded-lg font-bold text-[11px] transition-colors border border-purple-200/60 cursor-pointer"
                       >
-                        Review
+                        Review Order
                       </button>
                     </td>
                   </tr>
@@ -175,20 +179,19 @@ export default function ManufacturerDashboard({ setActiveTab }) {
 
         {/* Right: National Demand Snapshot */}
         <div className="space-y-6">
-          <div className="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-xs">
-            <h2 className="text-base font-bold text-slate-900 mb-1">Regional Demand Pulse</h2>
-            <p className="text-xs text-slate-500 mb-3">Projected monthly requirements by vaccine</p>
+          <div className="bg-white rounded-3xl border border-slate-200/80 p-6 shadow-xs hover:shadow-md transition-shadow">
+            <h2 className="text-base font-extrabold text-slate-900 tracking-tight mb-4">Regional Demand Pulse</h2>
 
             <div className="space-y-3">
               {safeDemandSummary.map((d) => (
-                <div key={d.vaccine_id} className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 text-xs">
-                  <div className="flex items-center justify-between mb-1">
+                <div key={d.vaccine_id} className="p-3 rounded-2xl bg-slate-50 border border-slate-100 text-xs">
+                  <div className="flex items-center justify-between mb-1.5">
                     <span className="font-bold text-slate-800">{d.vaccine_name}</span>
                     <Badge size="sm">{d.production_urgency === 'HIGH' ? 'High Urgency' : 'Normal'}</Badge>
                   </div>
-                  <div className="flex items-center justify-between text-[11px] text-slate-500">
-                    <span>Forecast 30d: <strong>{d.projected_demand_30d.toLocaleString()}</strong></span>
-                    <span>Pending: <strong>{d.pending_hospital_orders}</strong></span>
+                  <div className="flex items-center justify-between text-[11px] text-slate-500 font-medium">
+                    <span>Forecast 30d: <strong className="text-slate-800">{d.projected_demand_30d.toLocaleString()}</strong></span>
+                    <span>Pending: <strong className="text-purple-700">{d.pending_hospital_orders}</strong></span>
                   </div>
                 </div>
               ))}
@@ -196,22 +199,24 @@ export default function ManufacturerDashboard({ setActiveTab }) {
 
             <button
               onClick={() => setActiveTab('mfg-demand')}
-              className="mt-4 w-full py-2 text-xs font-semibold text-center text-purple-600 hover:bg-purple-50 rounded-xl border border-purple-200 transition-colors"
+              className="mt-4 w-full py-2.5 text-xs font-bold text-center text-purple-600 hover:text-purple-700 hover:bg-purple-50/60 rounded-xl border border-purple-200 transition-all flex items-center justify-center space-x-1 cursor-pointer"
             >
-              Detailed Production Planning →
+              <span>Detailed Production Planning</span>
+              <ChevronRight className="w-4 h-4" />
             </button>
           </div>
 
-          <div className="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-2xl p-4 border border-purple-100 text-xs">
-            <h3 className="font-bold text-purple-950 mb-1">Raw Materials Readiness</h3>
-            <p className="text-purple-800 mb-3">
-              Check glass vials, elastomer stoppers, and cold freight box supply.
+          <div className="relative overflow-hidden bg-gradient-to-br from-purple-950 via-indigo-950 to-slate-900 rounded-3xl p-6 text-white border border-purple-500/20 shadow-md">
+            <h3 className="font-extrabold text-sm mb-1 text-white">Raw Materials Readiness</h3>
+            <p className="text-xs text-purple-100/80 mb-4 leading-relaxed font-medium">
+              Check sterile glass vials, elastomer stoppers, and isothermal cold freight boxes.
             </p>
             <button
               onClick={() => setActiveTab('mfg-requirements')}
-              className="w-full py-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl transition-colors shadow-xs"
+              className="w-full py-2.5 bg-white hover:bg-purple-50 text-purple-950 font-extrabold text-xs rounded-xl transition-all shadow-md flex items-center justify-center space-x-1.5 cursor-pointer active:scale-95"
             >
-              Inspect Material Requirements
+              <ClipboardList className="w-3.5 h-3.5 text-purple-700" />
+              <span>Inspect Material Requirements</span>
             </button>
           </div>
         </div>

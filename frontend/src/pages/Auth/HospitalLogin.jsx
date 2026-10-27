@@ -2,8 +2,13 @@ import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { Building2, ShieldCheck, Mail, Lock, ArrowRight, ArrowLeft, ThermometerSnowflake, CheckCircle2, Factory } from 'lucide-react';
 
+const DEMO_PASSWORDS = {
+  'hospital@citycare.org': 'hospital123',
+  'clinic@greenvalley.org': 'clinic123',
+};
+
 export default function HospitalLogin({ onBackToGateway, onSwitchToManufacturer }) {
-  const { login, logout, demoUsers, loginAs } = useAuth();
+  const { login, logout, demoUsers } = useAuth();
   const [email, setEmail] = useState('hospital@citycare.org');
   const [password, setPassword] = useState('hospital123');
   const [deptCode, setDeptCode] = useState('CLINIC-PHARM-01');
@@ -64,22 +69,24 @@ export default function HospitalLogin({ onBackToGateway, onSwitchToManufacturer 
               <h2 className="text-2xl font-bold text-white leading-tight">
                 Hospital Cold-Chain & Batch Management
               </h2>
-              <p className="text-xs text-slate-300 leading-relaxed">
-                Log in to monitor simulated cold room temperatures, calculate Mean Kinetic Temperature (MKT), track vaccine expiry dates with FEFO algorithms, and request refills.
-              </p>
             </div>
           </div>
 
           {/* Quick Demo Accounts for Hospital */}
           <div>
             <div className="text-[11px] font-bold uppercase tracking-wider text-blue-300 mb-2.5">
-              ⚡ 1-Click Hospital Demo Accounts (For Viva)
+              ⚡ Hospital Demo Accounts
             </div>
             <div className="space-y-2">
               {hospitalDemoUsers.map((u) => (
                 <button
+                  type="button"
                   key={u.id}
-                  onClick={() => loginAs(u)}
+                  onClick={() => {
+                    setEmail(u.email);
+                    setPassword(DEMO_PASSWORDS[u.email] || 'demo');
+                    setError('');
+                  }}
                   className="w-full text-left p-3 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 transition-all flex items-center justify-between group"
                 >
                   <div className="flex items-center space-x-2.5">

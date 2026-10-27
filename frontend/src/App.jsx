@@ -49,7 +49,7 @@ function MainApp() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center">
         <div className="text-center space-y-3">
           <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600 mx-auto"></div>
           <p className="text-xs font-semibold text-slate-500">Initializing VaxTrack Platform...</p>
@@ -82,10 +82,10 @@ function MainApp() {
   const isHospital = user.role === 'HOSPITAL';
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 text-slate-900 flex flex-col font-sans">
       <Navbar />
 
-      <div className="flex-1 flex max-w-7xl w-full mx-auto">
+      <div className="flex-1 flex max-w-[1600px] w-full mx-auto">
         <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
 
         <main className="flex-1 p-6 sm:p-8 overflow-y-auto">

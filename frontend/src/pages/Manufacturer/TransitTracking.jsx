@@ -40,9 +40,6 @@ export default function TransitTracking() {
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-slate-900">Cold-Chain Distribution & Transit Monitoring</h1>
-        <p className="text-xs text-slate-500 mt-0.5">
-          Simulated freight route tracking and in-transit temperature integrity verification.
-        </p>
       </div>
 
       {/* Active Dispatches */}
@@ -97,9 +94,6 @@ export default function TransitTracking() {
                   <ShieldCheck className="w-5 h-5 text-emerald-600" />
                 </div>
 
-                <div className="text-[11px] text-slate-500">
-                  Packaging: <span className="font-medium text-slate-700">{shipment.dispatch_notes || 'Refrigerated van with temperature logger.'}</span>
-                </div>
               </div>
             ))}
           </div>

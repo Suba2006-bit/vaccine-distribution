@@ -738,10 +738,95 @@ def get_redistributions():
     conn.close()
     return jsonify([dict(r) for r in recs])
 
+@app.route("/api/redistribution/available-stock", methods=["GET"])
+def get_redistribution_available_stock():
+    facility_id = request.args.get("facility_id", type=int)
+    if not facility_id:
+        return jsonify({"error": "A hospital facility ID is required"}), 400
+
+    conn = get_db_connection()
+    facility = conn.execute(
+        "SELECT id FROM users WHERE id = ? AND role = 'HOSPITAL'", (facility_id,)
+    ).fetchone()
+    if not facility:
+        conn.close()
+        return jsonify({"error": "Hospital facility not found"}), 404
+
+    stock = conn.execute("""
+    SELECT b.id AS batch_id, b.facility_id AS source_facility_id,
+           u.facility_name AS source_facility_name, u.district AS source_district,
+           b.batch_number, b.vaccine_id, v.name AS vaccine_name,
+           b.current_doses AS available_doses, b.expiry_date
+    FROM batches b
+    JOIN users u ON b.facility_id = u.id
+    JOIN vaccines v ON b.vaccine_id = v.id
+    WHERE u.role = 'HOSPITAL' AND b.facility_id != ?
+      AND b.status = 'ACTIVE' AND b.current_doses > 0
+    ORDER BY v.name, u.facility_name, b.expiry_date
+    """, (facility_id,)).fetchall()
+    conn.close()
+    return jsonify([dict(row) for row in stock])
+
+@app.route("/api/redistribution/requests", methods=["POST"])
+def create_redistribution_request():
+    data = request.get_json() or {}
+    try:
+        requester_id = int(data.get("facility_id"))
+        batch_id = int(data.get("batch_id"))
+        requested_doses = int(data.get("requested_doses"))
+    except (TypeError, ValueError):
+        return jsonify({"error": "Facility, batch, and requested doses are required"}), 400
+
+    if requested_doses <= 0:
+        return jsonify({"error": "Requested doses must be greater than zero"}), 400
+
+    conn = get_db_connection()
+    requester = conn.execute(
+        "SELECT id FROM users WHERE id = ? AND role = 'HOSPITAL'", (requester_id,)
+    ).fetchone()
+    if not requester:
+        conn.close()
+        return jsonify({"error": "Hospital facility not found"}), 404
+
+    batch = conn.execute("""
+    SELECT b.*, u.role AS source_role
+    FROM batches b
+    JOIN users u ON b.facility_id = u.id
+    WHERE b.id = ?
+    """, (batch_id,)).fetchone()
+    if not batch or batch["source_role"] != "HOSPITAL" or batch["status"] != "ACTIVE":
+        conn.close()
+        return jsonify({"error": "Active hospital stock was not found"}), 404
+    if batch["facility_id"] == requester_id:
+        conn.close()
+        return jsonify({"error": "Choose stock from another hospital"}), 400
+    if requested_doses > batch["current_doses"]:
+        conn.close()
+        return jsonify({"error": "Requested doses exceed the available batch stock"}), 400
+
+    reason = (data.get("reason") or "").strip()
+    if not reason:
+        reason = "Vaccine transfer requested by another hospital."
+
+    cursor = conn.execute("""
+    INSERT INTO redistribution_recommendations (
+        source_facility_id, target_facility_id, batch_id, vaccine_id,
+        recommended_doses, reason, status
+    ) VALUES (?, ?, ?, ?, ?, ?, 'REQUESTED')
+    """, (
+        batch["facility_id"], requester_id, batch_id, batch["vaccine_id"],
+        requested_doses, reason
+    ))
+    conn.commit()
+    request_id = cursor.lastrowid
+    conn.close()
+    return jsonify({"message": "Vaccine request sent to the source hospital.", "request_id": request_id}), 201
+
 @app.route("/api/redistribution/recommendations/<int:rec_id>/action", methods=["POST"])
 def action_redistribution(rec_id):
     data = request.get_json() or {}
-    action = data.get("action", "ACCEPT").upper()  # ACCEPT or DISMISS
+    action = data.get("action", "ACCEPT").upper()
+    actor_id = data.get("facility_id")
 
     conn = get_db_connection()
     rec = conn.execute("SELECT * FROM redistribution_recommendations WHERE id = ?", (rec_id,)).fetchone()
@@ -749,8 +834,58 @@ def action_redistribution(rec_id):
         conn.close()
         return jsonify({"error": "Recommendation not found"}), 404
 
+    if rec["status"] == "REQUESTED":
+        if actor_id != rec["source_facility_id"]:
+            conn.close()
+            return jsonify({"error": "Only the source hospital can respond to this request"}), 403
+        if action == "REJECT":
+            conn.execute(
+                "UPDATE redistribution_recommendations SET status = 'REJECTED' WHERE id = ?",
+                (rec_id,),
+            )
+            msg = "Vaccine request rejected."
+        elif action == "ACCEPT":
+            batch = conn.execute("SELECT * FROM batches WHERE id = ?", (rec["batch_id"],)).fetchone()
+            if not batch or batch["current_doses"] < rec["recommended_doses"]:
+                conn.close()
+                return jsonify({"error": "The source batch no longer has enough doses"}), 409
+
+            transfer = conn.execute(
+                "UPDATE batches SET current_doses = current_doses - ? WHERE id = ? AND current_doses >= ?",
+                (rec["recommended_doses"], rec["batch_id"], rec["recommended_doses"]),
+            )
+            if transfer.rowcount != 1:
+                conn.rollback()
+                conn.close()
+                return jsonify({"error": "The source batch no longer has enough doses"}), 409
+            new_batch_num = f"REDIST-{batch['batch_number']}-{rec_id}"
+            conn.execute("""
+            INSERT INTO batches (
+                batch_number, facility_id, vaccine_id, manufacture_date, expiry_date,
+                initial_doses, current_doses, status, cold_storage_unit, quarantine_reason
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, 'ACTIVE', 'Clinic Refrigerator 1', 'Transferred through hospital request')
+            """, (
+                new_batch_num, rec["target_facility_id"], rec["vaccine_id"],
+                batch["manufacture_date"], batch["expiry_date"],
+                rec["recommended_doses"], rec["recommended_doses"],
+            ))
+            conn.execute(
+                "UPDATE redistribution_recommendations SET status = 'COMPLETED' WHERE id = ?",
+                (rec_id,),
+            )
+            msg = f"Transfer accepted: {rec['recommended_doses']} doses reallocated successfully."
+        else:
+            conn.close()
+            return jsonify({"error": "Action must be ACCEPT or REJECT"}), 400
+
+        conn.commit()
+        conn.close()
+        return jsonify({"message": msg})
+
+    if rec["status"] != "SUGGESTED":
+        conn.close()
+        return jsonify({"error": "This redistribution is no longer awaiting action"}), 409
     if action == "ACCEPT":
-        # Deduct doses from source batch
         batch = conn.execute("SELECT * FROM batches WHERE id = ?", (rec["batch_id"],)).fetchone()
         transfer_doses = min(rec["recommended_doses"], batch["current_doses"])
         conn.execute("UPDATE batches SET current_doses = current_doses - ? WHERE id = ?", (transfer_doses, rec["batch_id"]))
@@ -766,9 +901,12 @@ def action_redistribution(rec_id):
 
         conn.execute("UPDATE redistribution_recommendations SET status = 'COMPLETED' WHERE id = ?", (rec_id,))
         msg = f"Transfer accepted: {transfer_doses} doses reallocated successfully."
-    else:
+    elif action == "DISMISS":
         conn.execute("UPDATE redistribution_recommendations SET status = 'DISMISSED' WHERE id = ?", (rec_id,))
         msg = "Recommendation dismissed."
+    elif rec["status"] == "SUGGESTED":
+        conn.close()
+        return jsonify({"error": "Action must be ACCEPT or DISMISS"}), 400
 
     conn.commit()
     conn.close()

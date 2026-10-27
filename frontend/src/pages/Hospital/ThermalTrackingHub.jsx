@@ -25,7 +25,6 @@ import {
   ShieldCheck,
   ShieldAlert,
   Lock,
-  Info,
   Clock,
   Database,
   Layers,
@@ -244,13 +243,7 @@ export default function ThermalTrackingHub() {
         <div>
           <div className="flex items-center space-x-2">
             <h1 className="text-2xl font-bold text-slate-900">Cold Storage & Thermal Tracking Hub</h1>
-            <span className="text-xs px-2.5 py-0.5 rounded-full font-bold bg-blue-100 text-blue-700">
-              Live Software Analytics
-            </span>
           </div>
-          <p className="text-xs text-slate-500 mt-0.5">
-            Switch between the imported real cold-chain dataset and the interactive thermodynamic simulator.
-          </p>
         </div>
 
         {/* View Mode Toggle */}
@@ -295,20 +288,16 @@ export default function ThermalTrackingHub() {
       {activeMode === 'DATASET' && (
         <div className="space-y-6">
           {/* Top Banner for Dataset */}
-          <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-blue-950 text-white p-6 rounded-2xl shadow-lg border border-slate-800 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div className="bg-gradient-to-r from-blue-100 via-indigo-100 to-purple-100 text-slate-900 p-6 rounded-2xl shadow-lg shadow-indigo-100/70 border border-indigo-200 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div>
               <div className="flex items-center space-x-2">
-                <span className="text-xs font-bold uppercase tracking-wider text-cyan-400 bg-cyan-950/80 px-2.5 py-0.5 rounded-full border border-cyan-800">
+                <span className="text-xs font-bold uppercase tracking-wider text-blue-800 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-200">
                   Imported Dataset Telemetry
                 </span>
-                <span className="text-xs text-slate-300">500 Timestamped Readings</span>
               </div>
-              <h2 className="text-xl font-bold mt-1 text-white">
+              <h2 className="text-xl font-bold mt-1 text-slate-900">
                 Batch: {dsSummary?.batch_id || 'batch001'} • {dsSummary?.location || 'Jharkhand'}
               </h2>
-              <p className="text-xs text-slate-300 mt-1 max-w-2xl leading-relaxed">
-                Tracks a continuous multi-phase cold-chain lifecycle: <strong>Phase 1 Ultra-Low Freezer (-70°C)</strong>, transitioning into <strong>Phase 2 Thawed Refrigeration (2°C–4°C)</strong>, and ending in <strong>Phase 3 Excursion Spike (14°C)</strong> moving to discarded unit.
-              </p>
             </div>
 
             <div className="text-right shrink-0">
@@ -327,7 +316,6 @@ export default function ThermalTrackingHub() {
               <div className="text-2xl font-black mt-1 text-rose-700">
                 {dsSummary?.latest_shipper_temp}°C
               </div>
-              <div className="text-[10px] text-rose-600 font-semibold mt-0.5">⚠️ Out of Bound</div>
             </div>
 
             {/* Room Temp */}
@@ -336,7 +324,6 @@ export default function ThermalTrackingHub() {
               <div className="text-2xl font-black mt-1 text-slate-800">
                 {dsSummary?.latest_room_temp}°C
               </div>
-              <div className="text-[10px] text-slate-500 mt-0.5">{dsSummary?.latest_humidity}% Humidity</div>
             </div>
 
             {/* Item Expiry Hours */}
@@ -345,7 +332,6 @@ export default function ThermalTrackingHub() {
               <div className="text-2xl font-black mt-1 text-rose-700">
                 {dsSummary?.item_expiry_hours} hrs
               </div>
-              <div className="text-[10px] text-rose-600 font-semibold mt-0.5">Shelf-Life Passed</div>
             </div>
 
             {/* ULT Freezer Hours */}
@@ -354,7 +340,6 @@ export default function ThermalTrackingHub() {
               <div className="text-2xl font-black mt-1 text-cyan-800">
                 {dsSummary?.ult_freezer_hours} hrs
               </div>
-              <div className="text-[10px] text-cyan-600 mt-0.5">30-Day Maximum</div>
             </div>
 
             {/* Refrigeration Hours */}
@@ -363,16 +348,14 @@ export default function ThermalTrackingHub() {
               <div className="text-2xl font-black mt-1 text-blue-800">
                 {dsSummary?.refrigeration_hours} hrs
               </div>
-              <div className="text-[10px] text-blue-600 mt-0.5">Thawed Handling Time</div>
             </div>
 
             {/* Current Hop / Unit */}
-            <div className="p-4 rounded-2xl border bg-slate-900 text-white shadow-xs col-span-2 md:col-span-1">
-              <div className="text-[11px] font-bold text-cyan-400 uppercase">Storage Unit Hop</div>
-              <div className="text-xs font-mono font-bold mt-1 text-white truncate" title={dsSummary?.current_hop}>
+            <div className="p-4 rounded-2xl border bg-purple-50 border-purple-200 text-slate-800 shadow-xs col-span-2 md:col-span-1">
+              <div className="text-[11px] font-bold text-purple-700 uppercase">Storage Unit Hop</div>
+              <div className="text-xs font-mono font-bold mt-1 text-slate-900 truncate" title={dsSummary?.current_hop}>
                 {dsSummary?.current_hop?.replace('dest_', '')}
               </div>
-              <div className="text-[10px] text-slate-400 mt-0.5">Automatic Discard Lock</div>
             </div>
           </div>
 
@@ -416,9 +399,6 @@ export default function ThermalTrackingHub() {
                 <h3 className="text-base font-bold text-slate-900">
                   Cold-Chain Trajectory Graph (Shipper Temp vs Room Temp)
                 </h3>
-                <p className="text-xs text-slate-500">
-                  Visualizes the transition from -70°C ultra-cold through thawing and final 14°C excursion.
-                </p>
               </div>
 
               {/* Phase Filter Buttons */}
@@ -513,7 +493,6 @@ export default function ThermalTrackingHub() {
             <div className="p-4 border-b border-slate-100 flex items-center justify-between">
               <div>
                 <h3 className="text-sm font-bold text-slate-900">Dataset Telemetry Records (First 100 Rows)</h3>
-                <p className="text-xs text-slate-500">Live records from cold_chain_dataset.csv in database</p>
               </div>
               <span className="text-xs px-2.5 py-1 bg-slate-100 rounded-lg font-mono font-semibold text-slate-700">
                 500 Total Readings Ingested
@@ -710,9 +689,6 @@ export default function ThermalTrackingHub() {
                     Safe Band: 2.0°C to 8.0°C
                   </span>
                 </h3>
-                <p className="text-xs text-slate-500">
-                  Simulated refrigerator temperature points over time with excursion alerts.
-                </p>
               </div>
 
               <div className="flex items-center space-x-2">
@@ -809,19 +785,6 @@ export default function ThermalTrackingHub() {
         </div>
       )}
 
-      {/* Academic Mathematical Callout */}
-      <div className="bg-slate-900 text-slate-200 rounded-2xl p-5 border border-slate-800 space-y-2">
-        <div className="flex items-center space-x-2 text-cyan-400 text-xs font-bold uppercase tracking-wider">
-          <Info className="w-4 h-4" />
-          <span>Academic Reference: WHO / USP Mean Kinetic Temperature (MKT) Arrhenius Formula</span>
-        </div>
-        <p className="text-xs text-slate-300 leading-relaxed">
-          Mean Kinetic Temperature (MKT) calculates the non-linear degradation rate of vaccines under fluctuating storage temperatures using the <strong>Arrhenius Equation</strong>:
-        </p>
-        <div className="bg-slate-950 p-3 rounded-xl font-mono text-xs text-cyan-300 overflow-x-auto text-center border border-slate-800">
-          Tk = (ΔH / R) / [ -ln ( (1/n) * Σ exp(-ΔH / (R * Ti)) ) ] - 273.15
-        </div>
-      </div>
     </div>
   );
 }

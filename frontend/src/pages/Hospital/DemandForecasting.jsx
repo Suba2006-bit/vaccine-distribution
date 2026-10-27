@@ -17,8 +17,7 @@ import {
   Boxes,
   Calendar,
   AlertTriangle,
-  Sparkles,
-  Info
+  Sparkles
 } from 'lucide-react';
 
 export default function DemandForecasting() {
@@ -69,14 +68,7 @@ export default function DemandForecasting() {
         <div>
           <div className="flex items-center space-x-2">
             <h1 className="text-2xl font-bold text-slate-900">AI Future Demand Forecasting</h1>
-            <span className="text-xs px-2.5 py-0.5 rounded-full font-bold bg-indigo-50 text-indigo-700 border border-indigo-200 flex items-center space-x-1">
-              <Sparkles className="w-3 h-3 text-indigo-600" />
-              <span>Time-Series ML</span>
-            </span>
           </div>
-          <p className="text-xs text-slate-500 mt-0.5">
-            Predicts future patient demand, seasonal variations, and inventory depletion velocity.
-          </p>
         </div>
 
         {/* Vaccine Dropdown */}
@@ -101,28 +93,24 @@ export default function DemandForecasting() {
         <StatCard
           title="Current In Stock"
           value={forecast ? `${forecast.current_stock.toLocaleString()} doses` : '0'}
-          subtitle={`Available reserve (${forecast?.days_of_stock_remaining}d supply)`}
           icon={Boxes}
           color="blue"
         />
         <StatCard
           title="7-Day Predicted Need"
           value={forecast ? `${forecast.forecast_7_days.toLocaleString()} doses` : '0'}
-          subtitle={`Daily avg ~${forecast?.average_daily_consumption} doses/day`}
           icon={Calendar}
           color="emerald"
         />
         <StatCard
           title="30-Day Predicted Need"
           value={forecast ? `${forecast.forecast_30_days.toLocaleString()} doses` : '0'}
-          subtitle="Monthly forecasted requirement"
           icon={TrendingUp}
           color="indigo"
         />
         <StatCard
           title="90-Day Predicted Need"
           value={forecast ? `${forecast.forecast_90_days.toLocaleString()} doses` : '0'}
-          subtitle="Quarterly buffer target"
           icon={Sparkles}
           color="purple"
         />
@@ -155,9 +143,6 @@ export default function DemandForecasting() {
           <h2 className="text-base font-bold text-slate-900">
             30-Day Daily Demand Projections with Confidence Intervals
           </h2>
-          <p className="text-xs text-slate-500">
-            Predicted daily dose requirements incorporating day-of-week clinic scheduling and 95% confidence bounds (±15%).
-          </p>
         </div>
 
         <div className="h-72 w-full">
@@ -214,16 +199,6 @@ export default function DemandForecasting() {
         </div>
       </div>
 
-      {/* Model Rationale Info */}
-      <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-xs text-slate-600 flex items-start space-x-3">
-        <Info className="w-5 h-5 text-indigo-600 shrink-0 mt-0.5" />
-        <div>
-          <p className="font-bold text-slate-800">Forecasting Methodology:</p>
-          <p className="mt-0.5">
-            Model synthesizes 60 days of historical facility administration logs using linear trend estimation combined with day-of-week seasonality factors (Tuesdays/Wednesdays feature pediatric clinic peaks; Sundays reflect minimum emergency administration).
-          </p>
-        </div>
-      </div>
     </div>
   );
 }

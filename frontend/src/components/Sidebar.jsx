@@ -12,7 +12,7 @@ import {
   Factory,
   Truck,
   PackageCheck,
-  ClipboardList
+  ClipboardList,
 } from 'lucide-react';
 
 export default function Sidebar({ activeTab, setActiveTab }) {
@@ -35,7 +35,7 @@ export default function Sidebar({ activeTab, setActiveTab }) {
   const manufacturerItems = [
     { id: 'mfg-dashboard', label: 'Operations Dashboard', icon: LayoutDashboard },
     { id: 'mfg-demand', label: 'Aggregate Demand', icon: TrendingUp },
-    { id: 'mfg-requests', label: 'Hospital Orders', icon: PackageCheck, badge: 'New' },
+    { id: 'mfg-requests', label: 'Hospital Orders', icon: PackageCheck, badge: 'Active' },
     { id: 'mfg-supply', label: 'Supply & Production', icon: Factory },
     { id: 'mfg-transit', label: 'Distribution & Transit', icon: Truck },
     { id: 'mfg-requirements', label: 'Inventory Requirements', icon: ClipboardList },
@@ -43,20 +43,20 @@ export default function Sidebar({ activeTab, setActiveTab }) {
   ];
 
   const items = isHospital ? hospitalItems : manufacturerItems;
-  const activeBg = isHospital ? 'bg-blue-600 text-white shadow-xs' : 'bg-purple-600 text-white shadow-xs';
-  const iconColor = isHospital ? 'text-blue-600' : 'text-purple-600';
+  const activeBg = 'bg-gradient-to-r from-blue-100 to-purple-100 text-indigo-900 border border-indigo-200 shadow-sm';
+  const iconColor = 'text-indigo-600';
 
   return (
-    <aside className="w-64 bg-white border-r border-slate-200 min-h-[calc(100vh-4rem)] p-4 flex flex-col justify-between shrink-0">
+    <aside className="w-64 bg-gradient-to-b from-blue-50 via-indigo-50 to-purple-50 border-r border-indigo-100 min-h-[calc(100vh-4rem)] p-4 flex flex-col justify-between shrink-0 shadow-xs">
       <div className="space-y-6">
         <div>
-          <div className="px-3 mb-2 flex items-center justify-between">
-            <span className={`text-xs font-bold uppercase tracking-wider ${isHospital ? 'text-blue-700' : 'text-purple-700'}`}>
-              {isHospital ? '🏥 Hospital Navigation' : '🏭 Manufacturer Navigation'}
+          <div className="px-3 mb-3 flex items-center justify-between">
+            <span className="text-[11px] font-extrabold uppercase tracking-wider text-indigo-700">
+              {isHospital ? 'Healthcare Navigation' : 'Manufacturer Logistics'}
             </span>
           </div>
 
-          <nav className="space-y-1">
+          <nav className="space-y-1.5">
             {items.map((item) => {
               const Icon = item.icon;
               const isActive = activeTab === item.id;
@@ -64,21 +64,26 @@ export default function Sidebar({ activeTab, setActiveTab }) {
                 <button
                   key={item.id}
                   onClick={() => setActiveTab(item.id)}
-                  className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                  className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 group ${
                     isActive
                       ? activeBg
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                      : 'text-slate-600 hover:text-indigo-900 hover:bg-blue-100/70'
                   }`}
                 >
                   <div className="flex items-center space-x-3">
-                    <Icon className={`w-4 h-4 ${isActive ? 'text-white' : item.highlight ? iconColor : 'text-slate-400'}`} />
-                    <span>{item.label}</span>
+                    <Icon className={`w-4 h-4 transition-transform duration-200 group-hover:scale-110 ${
+                      isActive ? 'text-indigo-700' : item.highlight ? iconColor : 'text-slate-400'
+                    }`} />
+                    <span className="tracking-tight">{item.label}</span>
                   </div>
                   {item.highlight && !isActive && (
-                    <span className={`w-2 h-2 rounded-full ${isHospital ? 'bg-blue-600' : 'bg-purple-600'} animate-pulse`}></span>
+                    <span className="flex items-center space-x-1">
+                      <span className="w-2 h-2 rounded-full bg-blue-400 animate-ping"></span>
+                      <span className="w-2 h-2 rounded-full bg-purple-500"></span>
+                    </span>
                   )}
                   {item.badge && !isActive && (
-                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-purple-100 text-purple-700">
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 border border-purple-200">
                       {item.badge}
                     </span>
                   )}
@@ -89,14 +94,6 @@ export default function Sidebar({ activeTab, setActiveTab }) {
         </div>
       </div>
 
-      <div className="p-3 bg-slate-50 rounded-xl border border-slate-100 text-xs text-slate-500">
-        <p className="font-semibold text-slate-700">Strict Role Isolation</p>
-        <p className="mt-0.5">
-          {isHospital
-            ? 'Only hospital inventory & cold storage tracking visible.'
-            : 'Only manufacturing plant logistics & production visible.'}
-        </p>
-      </div>
     </aside>
   );
 }

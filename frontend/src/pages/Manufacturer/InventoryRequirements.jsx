@@ -35,9 +35,6 @@ export default function InventoryRequirements() {
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-slate-900">Manufacturing Inventory & Raw Material Requirements</h1>
-        <p className="text-xs text-slate-500 mt-0.5">
-          Calculates packaging consumables, borosilicate vials, and isothermal containers required for planned production.
-        </p>
       </div>
 
       {/* KPI Tiles */}
@@ -45,21 +42,18 @@ export default function InventoryRequirements() {
         <StatCard
           title="Borosilicate Glass Vials"
           value={data?.total_glass_vials_needed?.toLocaleString() || '0'}
-          subtitle="Required for planned batch fills"
           icon={Package}
           color="purple"
         />
         <StatCard
           title="Isothermal Freight Boxes"
           value={data?.total_cold_boxes_needed?.toLocaleString() || '0'}
-          subtitle="Cold-chain validated containers"
           icon={Boxes}
           color="blue"
         />
         <StatCard
           title="Raw Material Readiness"
           value={data?.buffer_raw_material_readiness || '94%'}
-          subtitle="Supply chain buffer verification"
           icon={ShieldCheck}
           color="emerald"
         />

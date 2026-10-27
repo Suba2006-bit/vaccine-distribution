@@ -8,8 +8,7 @@ import {
   CheckCircle2,
   TrendingDown,
   TrendingUp,
-  PackagePlus,
-  Info
+  PackagePlus
 } from 'lucide-react';
 
 export default function StockAnalysis({ setActiveTab }) {
@@ -42,9 +41,6 @@ export default function StockAnalysis({ setActiveTab }) {
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-slate-900">Shortage & Excess Stock Analysis</h1>
-        <p className="text-xs text-slate-500 mt-0.5">
-          Dynamic Safety Stock buffers, Reorder Point (ROP) calculations, and inventory health classification.
-        </p>
       </div>
 
       {/* Summary Stat Tiles */}
@@ -146,19 +142,6 @@ export default function StockAnalysis({ setActiveTab }) {
               ))}
             </tbody>
           </table>
-        </div>
-      </div>
-
-      {/* Formula Explanations */}
-      <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-xs text-slate-600 flex items-start space-x-3">
-        <Info className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
-        <div>
-          <p className="font-bold text-slate-800">Buffer Calculation Logic:</p>
-          <p className="mt-0.5">
-            <strong>Safety Stock:</strong> Minimum reserve (7 days of burn rate) to prevent stockout during transit delays.
-            <br />
-            <strong>Reorder Point (ROP):</strong> Target stock level (14 days of burn rate) at which replenishment orders must be triggered to the manufacturer.
-          </p>
         </div>
       </div>
     </div>

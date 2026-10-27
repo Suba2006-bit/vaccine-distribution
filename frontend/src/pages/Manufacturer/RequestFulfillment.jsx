@@ -66,9 +66,6 @@ export default function RequestFulfillment() {
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-slate-900">Hospital Order Fulfillment & Distribution</h1>
-        <p className="text-xs text-slate-500 mt-0.5">
-          Triage incoming healthcare supply orders, schedule cold-freight dispatches, and verify transit temperatures.
-        </p>
       </div>
 
       {message && (

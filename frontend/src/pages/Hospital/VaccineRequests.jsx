@@ -93,9 +93,6 @@ export default function VaccineRequests() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-slate-900">Vaccine Order Requests</h1>
-          <p className="text-xs text-slate-500 mt-0.5">
-            Submit replenishment orders to vaccine manufacturers and track cold-chain freight delivery.
-          </p>
         </div>
 
         <button

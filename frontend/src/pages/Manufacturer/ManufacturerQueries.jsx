@@ -59,9 +59,6 @@ export default function ManufacturerQueries() {
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-slate-900">Hospital Communications & Query Desk</h1>
-        <p className="text-xs text-slate-500 mt-0.5">
-          Review and resolve clinical queries, stability audits, and delivery tracking inquiries.
-        </p>
       </div>
 
       {message && (

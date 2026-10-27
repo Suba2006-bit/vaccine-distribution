@@ -57,9 +57,6 @@ export default function DemandPlanning({ setActiveTab }) {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-slate-900">National Aggregate Demand Planning</h1>
-          <p className="text-xs text-slate-500 mt-0.5">
-            Cross-facility predictive demand synthesis to guide manufacturing plant production quotas.
-          </p>
         </div>
 
         <button
@@ -76,21 +73,18 @@ export default function DemandPlanning({ setActiveTab }) {
         <StatCard
           title="30-Day Aggregate Demand"
           value={`${total30d.toLocaleString()} doses`}
-          subtitle="Regional healthcare demand"
           icon={TrendingUp}
           color="purple"
         />
         <StatCard
           title="Currently in Production"
           value={`${totalInProd.toLocaleString()} doses`}
-          subtitle="Active cleanroom vial filling"
           icon={Factory}
           color="blue"
         />
         <StatCard
           title="Pending Order Backlog"
           value={`${totalPending.toLocaleString()} doses`}
-          subtitle="Unfulfilled hospital orders"
           icon={AlertTriangle}
           color={totalPending > totalInProd ? 'rose' : 'emerald'}
         />
@@ -100,9 +94,6 @@ export default function DemandPlanning({ setActiveTab }) {
       <div className="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-xs space-y-4">
         <div>
           <h2 className="text-base font-bold text-slate-900">Production vs Projected Hospital Demand</h2>
-          <p className="text-xs text-slate-500">
-            Compare 30-day forecast targets with active factory filling batches and pending hospital requests.
-          </p>
         </div>
 
         <div className="h-72 w-full">
