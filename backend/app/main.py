@@ -12,7 +12,7 @@ from .services.redistribution_engine import generate_redistribution_recommendati
 from .services.simulator_service import generate_telemetry_reading, generate_burst_telemetry
 
 app = Flask(__name__)
-
+seed_database()
 # Ensure CORS support for React frontend
 @app.after_request
 def add_cors_headers(response):
@@ -850,14 +850,10 @@ def action_redistribution(rec_id):
                 conn.close()
                 return jsonify({"error": "The source batch no longer has enough doses"}), 409
 
-            transfer = conn.execute(
-                "UPDATE batches SET current_doses = current_doses - ? WHERE id = ? AND current_doses >= ?",
-                (rec["recommended_doses"], rec["batch_id"], rec["recommended_doses"]),
+            conn.execute(
+                "UPDATE batches SET current_doses = current_doses - ? WHERE id = ?",
+                (rec["recommended_doses"], rec["batch_id"]),
             )
-            if transfer.rowcount != 1:
-                conn.rollback()
-                conn.close()
-                return jsonify({"error": "The source batch no longer has enough doses"}), 409
             new_batch_num = f"REDIST-{batch['batch_number']}-{rec_id}"
             conn.execute("""
             INSERT INTO batches (
