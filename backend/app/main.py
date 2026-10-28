@@ -265,14 +265,23 @@ def get_dataset_telemetry():
     refrig_count = 0
     excursion_count = 0
 
+    refrig_temps = []
+    ult_temps = []
+    all_temps = []
+
     for r in logs:
         phase = r["phase_tag"]
+        temp = r["thermal_shipper_temp"]
+        all_temps.append(temp)
         if phase == "ULTRA_LOW_FREEZER":
             ult_count += 1
+            ult_temps.append(temp)
         elif phase == "REFRIGERATED_STORAGE":
             refrig_count += 1
+            refrig_temps.append(temp)
         else:
             excursion_count += 1
+            refrig_temps.append(temp)
 
         records.append({
             "id": r["id"],
@@ -292,9 +301,15 @@ def get_dataset_telemetry():
         })
 
     latest = records[0] if records else {}
+    avg_refrig = round(sum(refrig_temps) / len(refrig_temps), 1) if refrig_temps else 4.0
+    avg_ult = round(sum(ult_temps) / len(ult_temps), 1) if ult_temps else -70.0
+    avg_all = round(sum(all_temps) / len(all_temps), 1) if all_temps else 0.0
+    refrig_mkt = calculate_mean_kinetic_temperature(refrig_temps) if refrig_temps else 4.5
 
     summary = {
         "batch_id": "batch001",
+        "vaccine_name": "Comirnaty (mRNA COVID-19)",
+        "facility_name": "Jharkhand Central Vaccine Depot",
         "location": "Jharkand",
         "total_records": len(records),
         "latest_shipper_temp": latest.get("shipper_temp", 14.0),
@@ -306,6 +321,12 @@ def get_dataset_telemetry():
         "refrigeration_hours": latest.get("refrig_hours", 119),
         "out_of_bound_hours": latest.get("out_of_bound_hours", 1),
         "status": "DISCARDED / QUARANTINED",
+        "min_shipper_temp": min(all_temps) if all_temps else -70.0,
+        "max_shipper_temp": max(all_temps) if all_temps else 14.0,
+        "avg_shipper_temp": avg_all,
+        "avg_refrig_temp": avg_refrig,
+        "avg_ult_temp": avg_ult,
+        "refrig_mkt": refrig_mkt,
         "phase_breakdown": {
             "ultra_low_freezer_readings": ult_count,
             "refrigerated_readings": refrig_count,
@@ -318,7 +339,8 @@ def get_dataset_telemetry():
     return jsonify({
         "summary": summary,
         "chronological_records": chronological_records,
-        "table_records": records[:100]
+        "table_records": records,
+        "all_records": records
     })
 
 @app.route("/api/thermal/logs", methods=["GET"])

@@ -73,7 +73,7 @@ export default function ManufacturerLogin({ onBackToGateway, onSwitchToHospital 
           {/* Quick Demo Accounts for Manufacturer */}
           <div>
             <div className="text-[11px] font-bold uppercase tracking-wider text-purple-300 mb-2.5">
-              ⚡ 1-Click Manufacturer Demo Account (For Viva)
+              ⚡ Manufacturer Demo Account
             </div>
             <div className="space-y-2">
               {manufacturerDemoUsers.map((u) => (
